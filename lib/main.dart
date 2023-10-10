@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:device_preview/device_preview.dart';
+import 'screens/topbar/topbar.dart' as tb;
 
 void main() {
   runApp(
@@ -12,7 +13,7 @@ void main() {
         ],
         child: const MyApp(),
       ),
-    )
+    ),
   );
 }
 
@@ -50,8 +51,16 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Example'),
+      appBar: tb.TopBarWidget(
+        openFiles: [
+          'README.md',
+          'main.dart',
+          'test1.txt',
+          'test2.c',
+          'test3.cpp',
+          'test4.py',
+          'test5.kt'
+        ],
       ),
       body: const Center(
         child: Column(
@@ -59,17 +68,9 @@ class MyHomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('You have pushed the button this many times:'),
-
             Count(),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        key: const Key('increment_floatingActionButton'),
-
-        onPressed: () => context.read<Counter>().increment(),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
@@ -87,3 +88,4 @@ class Count extends StatelessWidget {
     );
   }
 }
+
