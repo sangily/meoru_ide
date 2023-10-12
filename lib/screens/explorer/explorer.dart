@@ -11,6 +11,8 @@ class ExplorerWidget extends StatefulWidget {
 }
 
 class _ExplorerWidget extends State<ExplorerWidget> {
+  double width = 190;
+
   _ExplorerWidget();
 
   void toggleContainer(BuildContext context) {
@@ -21,12 +23,18 @@ class _ExplorerWidget extends State<ExplorerWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onHorizontalDragEnd: (details) {
-        if (details.primaryVelocity! > 0) {
-          toggleContainer(context);
+        if (context.read<ExplorerProvider>().isOpened) {
+          if (details.primaryVelocity! < 0) {
+            toggleContainer(context);
+          }
+        } else if (!context.read<ExplorerProvider>().isOpened) {
+          if (details.primaryVelocity! > 0) {
+            toggleContainer(context);
+          }
         }
       },
       child: Container(
-        width: 312,
+        width: context.read<ExplorerProvider>().isOpened ? context.watch<CommonProvider>().screenWidth : width + 100,
         // TODO : 높이 적응형으로 적용
         height: context.watch<CommonProvider>().bodyHeight,
         color: Colors.transparent,
@@ -35,7 +43,7 @@ class _ExplorerWidget extends State<ExplorerWidget> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              width: 195,
+              width: width,
               height: double.infinity,
               color: Colors.blue,
               child: Padding(
@@ -66,8 +74,11 @@ class _ExplorerWidget extends State<ExplorerWidget> {
               ),
             ),
             Container(
-              width: 100,
+              width: context.read<ExplorerProvider>().isOpened ? context.read<CommonProvider>().screenWidth - width : 100,
               color: Colors.transparent,
+              child: GestureDetector(
+                onTap: () => toggleContainer(context),
+              ),
             )
           ],
         ),

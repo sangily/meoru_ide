@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'util/onMenuPressed.dart';
 import 'util/onTabPressed.dart';
 
-class MenuButton extends InkWell {
-  const MenuButton({super.key, super.onTap, super.child});
-}
-
 class TopBarWidget extends StatelessWidget implements PreferredSize {
   final List<String> openFiles;
   final _onMenuPressed = onMenuPressed;
@@ -29,7 +25,7 @@ class TopBarWidget extends StatelessWidget implements PreferredSize {
             // Leading button
             SizedBox(
               width: kToolbarHeight,
-              child: MenuButton(
+              child: InkWell(
                 onTap: _onMenuPressed,
                 child: Padding(
                   padding: EdgeInsets.all(2.0),
