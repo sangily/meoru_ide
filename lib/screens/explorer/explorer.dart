@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:meoru_ide/providers/explorer.dart';
+import 'package:meoru_ide/providers/common.dart';
+import 'package:provider/provider.dart';
 
 class ExplorerWidget extends StatefulWidget {
   const ExplorerWidget({super.key});
@@ -8,12 +11,10 @@ class ExplorerWidget extends StatefulWidget {
 }
 
 class _ExplorerWidget extends State<ExplorerWidget> {
-  bool isContainerOpen = false;
+  _ExplorerWidget();
 
-  void toggleContainer() {
-    setState(() {
-      isContainerOpen = !isContainerOpen;
-    });
+  void toggleContainer(BuildContext context) {
+    context.read<ExplorerProvider>().toggle();
   }
 
   @override
@@ -21,66 +22,55 @@ class _ExplorerWidget extends State<ExplorerWidget> {
     return GestureDetector(
       onHorizontalDragEnd: (details) {
         if (details.primaryVelocity! > 0) {
-          toggleContainer();
+          toggleContainer(context);
         }
       },
-      child: Stack(
-        children: [
-          AnimatedPositioned(
-            duration: Duration(milliseconds: 300),
-            left: isContainerOpen ? 0 : -200,
-            child: Container(
-              width: 312,
-              // TODO : 높이 적응형으로 적용
-              height: 500,
-              color: Colors.transparent,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    width: 195,
-                    height: double.infinity,
-                    color: Colors.blue,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 2.0,
-                            )
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ListTile(
-                              tileColor: Colors.white,
-                              title: Text('File 1'),
-                              onTap: () {
-                              },
-                            ),
-                            ListTile(
-                              tileColor: Colors.white,
-                              title: Text('File 2'),
-                              onTap: () {
-                              },
-                            ),
-                          ],
-                        ),
+      child: Container(
+        width: 312,
+        // TODO : 높이 적응형으로 적용
+        height: context.watch<CommonProvider>().bodyHeight,
+        color: Colors.transparent,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              width: 195,
+              height: double.infinity,
+              color: Colors.blue,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 2.0,
+                      )),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ListTile(
+                        tileColor: Colors.white,
+                        title: Text('File 1'),
+                        onTap: () {},
                       ),
-                    ),
+                      ListTile(
+                        tileColor: Colors.white,
+                        title: Text('File 2'),
+                        onTap: () {},
+                      ),
+                    ],
                   ),
-                  Container(
-                    width: 100,
-                    color: Colors.transparent,
-                  )
-                ],
+                ),
               ),
             ),
-          ),
-        ],
+            Container(
+              width: 100,
+              color: Colors.transparent,
+            )
+          ],
+        ),
       ),
     );
   }

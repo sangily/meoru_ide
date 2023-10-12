@@ -6,3 +6,7 @@ export 'package:provider/provider.dart';
 /* screens */
 export 'screens/topbar/topbar.dart';
 export 'screens/explorer/explorer.dart';
+
+/* providers */
+export 'providers/explorer.dart';
+export 'providers/common.dart';
