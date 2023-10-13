@@ -15,8 +15,8 @@ class TopBarWidget extends StatelessWidget implements PreferredSize {
   // TODO : 흰색 테두리 적용
   @override
   Widget get child => AppBar(
-        backgroundColor: Colors.black,
-        elevation: 0,
+        backgroundColor: Color(0xff131314),
+        elevation: 1,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max,
@@ -33,50 +33,67 @@ class TopBarWidget extends StatelessWidget implements PreferredSize {
                 ),
               ),
             ),
+            Container(
+              width: 12,
+            ),
             // Central compartment with tabs
             Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    for (int i = 0; i < openFiles.length; i++)
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: InkWell(
-                          onTap: () => _onTabPressed(i),
-                          child: Container(
-                            padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: i == 0 ? Colors.blue : Colors.grey,
-                                // Active tab color
-                                width: 2.0,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    left: BorderSide(
+                      color: Color(0x457C7C7F), // 흰색 테두리 색상
+                      width: 1.0, // 흰색 테두리 두께
+                    ),
+                    right: BorderSide(
+                      color: Color(0x457C7C7F), // 흰색 테두리 색상
+                      width: 1.0, // 흰색 테두리 두께
+                    ),
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      for (int i = 0; i < openFiles.length; i++)
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: InkWell(
+                            onTap: () => _onTabPressed(i),
+                            child: Container(
+                              padding: EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: i == 0 ? Colors.blue : Colors.grey,
+                                  // Active tab color
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  openFiles[i],
-                                  style: TextStyle(
-                                    color: i == 0 ? Colors.blue : Colors.grey,
-                                    // Active tab text color
-                                    fontWeight: FontWeight.bold,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    openFiles[i],
+                                    style: TextStyle(
+                                      color: i == 0 ? Colors.blue : Colors.grey,
+                                      // Active tab text color
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: 8),
-                                InkWell(
-                                  onTap: () {
-                                    // Add functionality to close tabs
-                                  },
-                                  child: Icon(Icons.close, size: 18),
-                                ),
-                              ],
+                                  SizedBox(width: 5),
+                                  InkWell(
+                                    onTap: () {
+                                      // Add functionality to close tabs
+                                    },
+                                    child: Icon(Icons.close, size: 21),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

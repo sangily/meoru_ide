@@ -19,6 +19,11 @@ class MeoruIDE extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: MainPage(),
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          shadowColor: Colors.white,
+        )
+      ),
     );
   }
 }

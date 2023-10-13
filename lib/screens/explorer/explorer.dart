@@ -77,7 +77,7 @@ class _ExplorerWidget extends State<ExplorerWidget> {
               width: context.read<ExplorerProvider>().isOpened ? context.read<CommonProvider>().screenWidth - width : 100,
               color: Colors.transparent,
               child: GestureDetector(
-                onTap: () => toggleContainer(context),
+                onTap: () => context.read<ExplorerProvider>().isOpened ? toggleContainer(context) : (),
               ),
             )
           ],
