@@ -2,15 +2,12 @@
 
 머루IDE는 UTF-8 인코딩에 최적화된 모바일 통합 개발 환경입니다.
 
-## Getting Started
+# v0.0.1
+- TopBar 및 Drawer, Button 생성
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# TODO
+- 코드 에디터 직접 제작 예정... flutter-syntax-view에서 line number, code syntax highlighting 기능만 참조해 올 것.
+- 키보드도 직접 제작 예정
+- 콘솔 창
+- Drawer 및 Button 디자인 수정
+- menu 추가
