@@ -15,6 +15,8 @@ void main() {
 }
 
 class MeoruIDE extends StatelessWidget {
+  const MeoruIDE({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

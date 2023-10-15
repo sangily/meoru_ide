@@ -1,12 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_syntax_view/flutter_syntax_view.dart';
 import 'package:meoru_ide/providers/common.dart';
 import 'package:meoru_ide/providers/explorer.dart';
 import 'package:meoru_ide/screens/topbar/topbar.dart';
 import 'package:provider/provider.dart';
 import 'package:meoru_ide/screens/explorer/explorer.dart';
-import 'package:code_editor/code_editor.dart';
+
+String code = """
+// Importing core libraries
+import 'dart:math';
+int fibonacci(int n) {
+  if (n == 0 || n == 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}          
+var result = fibonacci(20);
+/* and there 
+    you have it! */
+""";
+
+class MyForm extends StatefulWidget {
+  const MyForm({super.key});
+
+  @override
+  _MyFormState createState() => _MyFormState();
+}
+
+
+class _MyFormState extends State<MyForm> {
+  final _formKey = GlobalKey<FormState>();
+  String name = '';
+  String email = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  initialValue: code,
+                  maxLines: 5,
+                  keyboardType: TextInputType.multiline,
+                  decoration: InputDecoration(
+                    // border: InputBorder.none,
+                  ),
+                  onSaved: (value) {
+                    name = value!;
+                  },
+                ),
+              ],
+            ),
+          ),
+    );
+  }
+}
 
 class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -46,73 +99,48 @@ class _MainPageState extends State<MainPage> {
 
               return Stack(
                 children: [
-                  Container(
-                    color: Color(0xFF131314),
-                    child: SingleChildScrollView(
-                      child: CodeEditor(
-                        model: EditorModel(
-                          files: [
-                            FileEditor(
-                              name: 'test.py',
-                              language: "python",
-                              code: """import pandas as pd
+                  MyForm(
 
-df = pd.DataFrame()
-print(\"Hello World\")
-"""
-                            ),
-                          ],
-                          styleOptions: EditorModelStyleOptions(
-                            fontSize: 13,
-                            heightOfContainer: 400,
-                          ),
-                        ),
-                        disableNavigationbar: false,
-                        onSubmit: (String language, String Value) {
-                          print("A file was changed");
-                        },
-                        formatters: const ["html"],
-                        textModifier: (String language, String content) {
-                          print("A file is about to change");
-                          return content;
-                        },
-                      ),
-                    ),
+                    // Container(
+                    //   color: Color(0xFF131314),
+                    //   child: TextFormField(
+                    //
+                    //   )
                   ),
                   AnimatedPositioned(
                     duration: Duration(milliseconds: 300),
                     left: context.watch<ExplorerProvider>().isOpened ? 0 : -190,
                     child: ExplorerWidget(),
                   ),
-                  // Positioned(
-                  //   bottom: 16,
-                  //   right: 16,
-                  //   child: Column(
-                  //     children: [
-                  //       // 콘솔 버튼
-                  //       ElevatedButton(
-                  //         onPressed: () {},
-                  //         style: ButtonStyle(
-                  //           fixedSize: MaterialStateProperty.all(Size(50, 50)),
-                  //           iconSize: MaterialStateProperty.all(30),
-                  //           alignment: Alignment.center,
-                  //         ),
-                  //         child: Icon(Icons.terminal),
-                  //       ),
-                  //       SizedBox(height: 10),
-                  //       // 키보드 버튼
-                  //       ElevatedButton(
-                  //         onPressed: () {},
-                  //         style: ButtonStyle(
-                  //           fixedSize: MaterialStateProperty.all(Size(50, 50)),
-                  //           iconSize: MaterialStateProperty.all(30),
-                  //           alignment: Alignment.center,
-                  //         ),
-                  //         child: Icon(Icons.keyboard),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
+                  Positioned(
+                    bottom: 16,
+                    right: 16,
+                    child: Column(
+                      children: [
+                        // 콘솔 버튼
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ButtonStyle(
+                            fixedSize: MaterialStateProperty.all(Size(50, 50)),
+                            iconSize: MaterialStateProperty.all(30),
+                            alignment: Alignment.center,
+                          ),
+                          child: Icon(Icons.terminal),
+                        ),
+                        SizedBox(height: 10),
+                        // 키보드 버튼
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ButtonStyle(
+                            fixedSize: MaterialStateProperty.all(Size(50, 50)),
+                            iconSize: MaterialStateProperty.all(30),
+                            alignment: Alignment.center,
+                          ),
+                          child: Icon(Icons.keyboard),
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               );
             },
