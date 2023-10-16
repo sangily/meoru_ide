@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_syntax_view/flutter_syntax_view.dart';
 import 'package:meoru_ide/providers/common.dart';
 import 'package:meoru_ide/providers/explorer.dart';
 import 'package:meoru_ide/screens/topbar/topbar.dart';
@@ -39,16 +38,22 @@ class _MyFormState extends State<MyForm> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: <Widget>[
-                TextFormField(
-                  initialValue: code,
-                  maxLines: 5,
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    // border: InputBorder.none,
+                SizedBox(
+                  height: context.watch<CommonProvider>().bodyHeight - 32.0,
+                  width: context.watch<CommonProvider>().screenWidth - 32.0,
+                  child: TextFormField(
+                    initialValue: code,
+                    minLines: null,
+                    maxLines: null,
+                    expands: true,
+                    keyboardType: TextInputType.multiline,
+                    decoration: InputDecoration(
+                      // border: InputBorder.none,
+                    ),
+                    onSaved: (value) {
+                      name = value!;
+                    },
                   ),
-                  onSaved: (value) {
-                    name = value!;
-                  },
                 ),
               ],
             ),
