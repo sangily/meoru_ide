@@ -24,40 +24,68 @@ class MyForm extends StatefulWidget {
   _MyFormState createState() => _MyFormState();
 }
 
-
 class _MyFormState extends State<MyForm> {
   final _formKey = GlobalKey<FormState>();
-  String name = '';
-  String email = '';
+  String code = '';
+  final _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.buildTextSpan(
+        context: context,
+        withComposing: false,
+        style: TextStyle(
+          color: Colors.blue,
+        )
+    );
+    _controller.addListener(() {print("test : ${_controller.text}");});
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: context.watch<CommonProvider>().bodyHeight - 32.0,
-                  width: context.watch<CommonProvider>().screenWidth - 32.0,
-                  child: TextFormField(
-                    initialValue: code,
-                    minLines: null,
-                    maxLines: null,
-                    expands: true,
-                    keyboardType: TextInputType.multiline,
-                    decoration: InputDecoration(
-                      // border: InputBorder.none,
-                    ),
-                    onSaved: (value) {
-                      name = value!;
-                    },
+      key: _formKey,
+      child: Container(
+        color: Color(0xFF131314),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: context
+                    .watch<CommonProvider>()
+                    .bodyHeight - 32.0,
+                width: context
+                    .watch<CommonProvider>()
+                    .screenWidth - 32.0,
+                child: TextFormField(
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
+                  minLines: null,
+                  maxLines: null,
+                  expands: true,
+                  keyboardType: TextInputType.multiline,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                  ),
+                  onSaved: (value) {
+                    code = value!;
+                  },
+                  controller: _controller,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
+        ),
+      ),
     );
   }
 }
@@ -104,17 +132,12 @@ class _MainPageState extends State<MainPage> {
 
               return Stack(
                 children: [
-                  MyForm(
-
-                    // Container(
-                    //   color: Color(0xFF131314),
-                    //   child: TextFormField(
-                    //
-                    //   )
-                  ),
+                  MyForm(),
                   AnimatedPositioned(
                     duration: Duration(milliseconds: 300),
-                    left: context.watch<ExplorerProvider>().isOpened ? 0 : -190,
+                    left: context
+                        .watch<ExplorerProvider>()
+                        .isOpened ? 0 : -190,
                     child: ExplorerWidget(),
                   ),
                   Positioned(
