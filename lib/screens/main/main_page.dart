@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meoru_ide/providers/common.dart';
 import 'package:meoru_ide/providers/explorer.dart';
+import 'package:meoru_ide/screens/main/widget/syntax_highlight.dart';
 import 'package:meoru_ide/screens/topbar/topbar.dart';
 import 'package:provider/provider.dart';
 import 'package:meoru_ide/screens/explorer/explorer.dart';
@@ -17,29 +18,38 @@ var result = fibonacci(20);
     you have it! */
 """;
 
-class MyForm extends StatefulWidget {
-  const MyForm({super.key});
+class CustomCodeEditor extends StatefulWidget {
+  final String language;
+
+  const CustomCodeEditor({super.key, this.language = ''});
 
   @override
-  _MyFormState createState() => _MyFormState();
+  _CustomCodeEditorState createState() => _CustomCodeEditorState(language);
 }
 
-class _MyFormState extends State<MyForm> {
+class _CustomCodeEditorState extends State<CustomCodeEditor> {
   final _formKey = GlobalKey<FormState>();
   String code = '';
   final _controller = TextEditingController();
+  String language;
+
+  _CustomCodeEditorState(this.language);
+
+  final TextStyle _style = TextStyle(
+    fontFamily: 'consolas',
+    color: Colors.black,
+    fontSize: 14,
+    height: 1,
+  );
+
+  SyntaxHighlighter highlighter;
 
   @override
   void initState() {
     super.initState();
-    _controller.buildTextSpan(
-        context: context,
-        withComposing: false,
-        style: TextStyle(
-          color: Colors.blue,
-        )
+    highlighter = getHighlighterWithName(widget.language)(
+
     );
-    _controller.addListener(() {print("test : ${_controller.text}");});
   }
 
   @override
@@ -132,7 +142,7 @@ class _MainPageState extends State<MainPage> {
 
               return Stack(
                 children: [
-                  MyForm(),
+                  CustomCodeEditor(),
                   AnimatedPositioned(
                     duration: Duration(milliseconds: 300),
                     left: context
