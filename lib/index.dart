@@ -4,7 +4,7 @@ export 'package:flutter/material.dart';
 export 'package:provider/provider.dart';
 
 /* screens */
-export 'screens/main/mainPage.dart';
+export 'screens/main/main_page.dart';
 
 /* providers */
 export 'providers/common.dart';
