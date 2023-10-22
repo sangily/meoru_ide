@@ -9,3 +9,4 @@ export 'screens/main/main_page.dart';
 /* providers */
 export 'providers/common.dart';
 export 'providers/explorer.dart';
+export 'providers/editor.dart';

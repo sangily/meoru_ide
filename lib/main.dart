@@ -8,6 +8,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => ExplorerProvider()),
         ChangeNotifierProvider(create: (_) => CommonProvider()),
+        ChangeNotifierProvider(create: (_) => EditorProvider()),
       ],
       child: MeoruIDE(),
     ),

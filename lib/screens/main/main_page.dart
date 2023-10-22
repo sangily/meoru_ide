@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meoru_ide/index.dart';
 import 'package:meoru_ide/providers/common.dart';
 import 'package:meoru_ide/providers/explorer.dart';
 import 'package:meoru_ide/screens/main/widget/syntax_highlight.dart';
@@ -21,7 +22,7 @@ var result = fibonacci(20);
 class CustomCodeEditor extends StatefulWidget {
   final String language;
 
-  const CustomCodeEditor({super.key, this.language = ''});
+  const CustomCodeEditor({super.key, this.language = 'r'});
 
   @override
   _CustomCodeEditorState createState() => _CustomCodeEditorState(language);
@@ -35,21 +36,12 @@ class _CustomCodeEditorState extends State<CustomCodeEditor> {
 
   _CustomCodeEditorState(this.language);
 
-  final TextStyle _style = TextStyle(
-    fontFamily: 'consolas',
-    color: Colors.black,
-    fontSize: 14,
-    height: 1,
-  );
-
-  SyntaxHighlighter highlighter;
+  late SyntaxHighlighter highlighter;
 
   @override
   void initState() {
     super.initState();
-    highlighter = getHighlighterWithName(widget.language)(
-
-    );
+    highlighter = getHighlighterWithName(widget.language)();
   }
 
   @override
@@ -66,19 +58,13 @@ class _CustomCodeEditorState extends State<CustomCodeEditor> {
         color: Color(0xFF131314),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: context
-                    .watch<CommonProvider>()
-                    .bodyHeight - 32.0,
-                width: context
-                    .watch<CommonProvider>()
-                    .screenWidth - 32.0,
-                child: TextFormField(
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+          child: SizedBox(
+            height: context.watch<CommonProvider>().bodyHeight - 32.0,
+            width: context.watch<CommonProvider>().screenWidth - 32.0,
+            child: Stack(
+              children: [
+                TextFormField(
+                  style: highlighter.baseStyle,
                   minLines: null,
                   maxLines: null,
                   expands: true,
@@ -89,10 +75,19 @@ class _CustomCodeEditorState extends State<CustomCodeEditor> {
                   onSaved: (value) {
                     code = value!;
                   },
+                  onChanged: (value) {
+                    code = value;
+                    context.read<EditorProvider>().setCode(code);
+                  },
                   controller: _controller,
                 ),
-              ),
-            ],
+                RichText(
+                  text: TextSpan(
+                    children: highlighter.highlight(context.watch<EditorProvider>().code),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -145,9 +140,7 @@ class _MainPageState extends State<MainPage> {
                   CustomCodeEditor(),
                   AnimatedPositioned(
                     duration: Duration(milliseconds: 300),
-                    left: context
-                        .watch<ExplorerProvider>()
-                        .isOpened ? 0 : -190,
+                    left: context.watch<ExplorerProvider>().isOpened ? 0 : -190,
                     child: ExplorerWidget(),
                   ),
                   Positioned(
