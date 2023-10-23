@@ -68,6 +68,7 @@ class _CustomCodeEditorState extends State<CustomCodeEditor> {
                   minLines: null,
                   maxLines: null,
                   expands: true,
+
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -81,9 +82,15 @@ class _CustomCodeEditorState extends State<CustomCodeEditor> {
                   },
                   controller: _controller,
                 ),
-                RichText(
-                  text: TextSpan(
-                    children: highlighter.highlight(context.watch<EditorProvider>().code),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0,12,0,0),
+                  child: SingleChildScrollView(
+                    child: RichText(
+                      text: TextSpan(
+                        style: highlighter.baseStyle,
+                        children: highlighter.highlight(context.watch<EditorProvider>().code),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -135,45 +142,46 @@ class _MainPageState extends State<MainPage> {
                 context.read<CommonProvider>().setScreenWidth(screenWidth);
               }
 
-              return Stack(
-                children: [
-                  CustomCodeEditor(),
-                  AnimatedPositioned(
-                    duration: Duration(milliseconds: 300),
-                    left: context.watch<ExplorerProvider>().isOpened ? 0 : -190,
-                    child: ExplorerWidget(),
-                  ),
-                  Positioned(
-                    bottom: 16,
-                    right: 16,
-                    child: Column(
-                      children: [
-                        // 콘솔 버튼
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                            fixedSize: MaterialStateProperty.all(Size(50, 50)),
-                            iconSize: MaterialStateProperty.all(30),
-                            alignment: Alignment.center,
-                          ),
-                          child: Icon(Icons.terminal),
-                        ),
-                        SizedBox(height: 10),
-                        // 키보드 버튼
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                            fixedSize: MaterialStateProperty.all(Size(50, 50)),
-                            iconSize: MaterialStateProperty.all(30),
-                            alignment: Alignment.center,
-                          ),
-                          child: Icon(Icons.keyboard),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              );
+              return CustomCodeEditor();
+                // Stack(
+                // children: [
+                  // CustomCodeEditor(),
+                  // AnimatedPositioned(
+                  //   duration: Duration(milliseconds: 300),
+                  //   left: context.watch<ExplorerProvider>().isOpened ? 0 : -190,
+                  //   child: ExplorerWidget(),
+                  // ),
+                  // Positioned(
+                  //   bottom: 16,
+                  //   right: 16,
+                  //   child: Column(
+                  //     children: [
+                  //       // 콘솔 버튼
+                  //       ElevatedButton(
+                  //         onPressed: () {},
+                  //         style: ButtonStyle(
+                  //           fixedSize: MaterialStateProperty.all(Size(50, 50)),
+                  //           iconSize: MaterialStateProperty.all(30),
+                  //           alignment: Alignment.center,
+                  //         ),
+                  //         child: Icon(Icons.terminal),
+                  //       ),
+                  //       SizedBox(height: 10),
+                  //       // 키보드 버튼
+                  //       ElevatedButton(
+                  //         onPressed: () {},
+                  //         style: ButtonStyle(
+                  //           fixedSize: MaterialStateProperty.all(Size(50, 50)),
+                  //           iconSize: MaterialStateProperty.all(30),
+                  //           alignment: Alignment.center,
+                  //         ),
+                  //         child: Icon(Icons.keyboard),
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
+                // ],
+              // );
             },
           );
         },

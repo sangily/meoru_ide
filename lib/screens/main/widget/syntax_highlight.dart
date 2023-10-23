@@ -33,6 +33,7 @@ class SyntaxHighlighter {
     inherit: true,
     fontWeight: FontWeight.bold,
     fontSize: 16,
+    height: 1,
   );
   final TextStyle _quotedStringStyle;
   final TextStyle _commentStyle;
@@ -82,7 +83,6 @@ class SyntaxHighlighter {
         if (highlightWords[i].contains(trimToken)) {
           found = true;
           style = mergedStyles[i];
-          print("found: $trimToken");
           break;
         }
       }
