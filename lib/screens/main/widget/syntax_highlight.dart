@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 Function getHighlighterWithName(String languageName) {
   languageName = languageName.toLowerCase();
   Function g;
+
   switch(languageName) {
-    case 'r': g = () => RSyntaxHighlighter; break;
-    default: g = () => SyntaxHighlighter; break;
+    case 'r': g = () => RSyntaxHighlighter(); break;
+    default: g = () => SyntaxHighlighter(); break;
   }
   return g;
 }
@@ -26,7 +27,14 @@ class SyntaxHighlighter {
   final Color commentColor;
   final Color numberColor;
   final Color defaultColor;
-  final TextStyle _defaultStyle;
+  static const TextStyle _defaultStyle = TextStyle(
+    fontFamily: 'consolas',
+    color: Colors.white,
+    inherit: true,
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+    height: 1,
+  );
   final TextStyle _quotedStringStyle;
   final TextStyle _commentStyle;
   final TextStyle _numberStyle;
@@ -35,9 +43,9 @@ class SyntaxHighlighter {
   static final List<String> _defaultDelimiters = [' ', '\t'] + r', < . > / ? ; : \ | ! @ $ % ^ & * ( ) - _ = + [ ] ` ~'.split(' ');
 
   SyntaxHighlighter({
-    required this.baseStyle,
-    required this.highlightWords,
-    required this.highlightColors,
+    this.baseStyle = _defaultStyle,
+    this.highlightWords = const [],
+    this.highlightColors = const [],
     this.quotedStringRegExp = r"((?<![\\])['" '"' r"])((?:.(?!(?<![\\])\1))*.?)\1",
     this.numberRegExp = r'\d+',
     this.defaultColor = Colors.black,
@@ -53,8 +61,7 @@ class SyntaxHighlighter {
         _highlightStyles = highlightColors.map((e) => TextStyle(color: e, inherit: true)).toList(),
         _quotedStringStyle = TextStyle(color: quotedStringColor, inherit: true),
         _commentStyle = TextStyle(color: commentColor, inherit: true),
-        _numberStyle = TextStyle(color: numberColor, inherit: true),
-        _defaultStyle = TextStyle(color: defaultColor, inherit: true);
+        _numberStyle = TextStyle(color: numberColor, inherit: true);
 
   List<TextSpan> highlight(String code) {
     List<String> tokenized = tokenizeAll(code);
@@ -263,10 +270,9 @@ class RSyntaxHighlighter extends SyntaxHighlighter {
   trigamma trunc unclass untracemem UseMethod xtfrm
   """).trim().replaceAll('\n', ' ').split(RegExp(' +'));
 
-  RSyntaxHighlighter({required TextStyle baseStyle}) : super(
+  RSyntaxHighlighter() : super(
     highlightWords: [keywords, literals, builtIns],
     highlightColors: [Colors.deepOrangeAccent, Colors.indigo, Colors.purple],
-    baseStyle: baseStyle,
     commentCharacterRegExp: r'#(.|\s|"|' "'" ')*',
   );
 }
