@@ -52,22 +52,23 @@ class _CustomCodeEditorState extends State<CustomCodeEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return Form( // 코드 입력창을 감싸는 Form
       key: _formKey,
       child: Container(
-        color: Color(0xFF131314),
-        child: Padding(
+        color: Color(0xFF131314), // 배경색: 검정
+        constraints: BoxConstraints.expand(), // 전체 화면으로 늘리기
+        child: Padding( // 상하좌우 16씩 띄우기
           padding: const EdgeInsets.all(16.0),
-          child: SizedBox(
-            height: context.watch<CommonProvider>().bodyHeight - 32.0,
-            width: context.watch<CommonProvider>().screenWidth - 32.0,
-            child: Stack(
+          child: SizedBox( // 코드 입력창의 크기를 지정
+            height: context.watch<CommonProvider>().bodyHeight - 32.0, // 상하 16씩 띄우기
+            width: context.watch<CommonProvider>().screenWidth - 32.0, // 좌우 16씩 띄우기
+            child: Stack( // 코드 입력창과 하이라이트된 코드를 겹쳐서 보여줌
               children: [
-                TextFormField(
-                  style: highlighter.baseStyle,
-                  minLines: null,
-                  maxLines: null,
-                  expands: true,
+                TextFormField( // 코드 입력창
+                  style: highlighter.baseStyle, // 코드 입력창의 스타일을 하이라이트된 코드의 스타일로 지정
+                  minLines: null, // 최소 줄 수: 없음
+                  maxLines: null, // 최대 줄 수: 없음
+                  expands: true, // 화면을 넘어가는 경우 자동으로 늘림
 
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
